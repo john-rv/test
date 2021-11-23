@@ -23,7 +23,7 @@ public class MenuCheckTest {
     }
 
     @Test
-    public void test1() {
+    public void menuCheck() {
         driver.get("http://localhost/litecart/admin/login.php");
         driver.findElement(By.name("username")).sendKeys("admin");
         driver.findElement(By.name("password")).sendKeys("admin");
