@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class TestLoginAdmin {
+public class LoginAdminTest {
 
     private WebDriver driver;
 
@@ -26,6 +26,5 @@ public class TestLoginAdmin {
     public void stop(){
         driver.quit();
         driver = null;
-        }
+    }
 }
-

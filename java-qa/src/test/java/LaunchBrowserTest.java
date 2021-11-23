@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
-public class TestLaunchBrowser {
+public class LaunchBrowserTest {
     private WebDriver driver;
     private WebDriverWait wait;
 
