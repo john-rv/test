@@ -25,11 +25,11 @@ public class StickerCheckTest {
     public void stickerCheck() {
         driver.get("http://localhost/litecart/en/");
         //создаем список из изображений товара
-        List<WebElement> list = driver.findElements(By.className("image-wrapper"));
+        List<WebElement> list = driver.findElements(By.cssSelector("li.product"));
         //перебираем каждый товар в цикле
         for (int i = 0; i < list.size(); i++) {
             //создаем список из стикеров на изображении товара
-            List<WebElement> sticker = list.get(i).findElements(By.cssSelector("div.image-wrapper > div"));
+            List<WebElement> sticker = list.get(i).findElements(By.cssSelector("div.sticker"));
             //сравниваем список стикеров с 1
             assertEquals(1, sticker.size());
 
