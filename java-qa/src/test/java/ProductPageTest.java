@@ -34,22 +34,16 @@ public class ProductPageTest {
     //проверяем что цена зачеркнута
     public boolean priceCross(WebElement element) {
         if ("ie".equals(browser)) {
-            String cross = "s";
-            String s = element.getTagName();
-            return (cross.equals(s));
+            return ("s".equals(element.getTagName()));
         } else {
-            String cross = "line-through";
-            String crossPrice = element.getCssValue("text-decoration-line");
-            return (cross.equals(crossPrice));
+            return ("line-through".equals(element.getCssValue("text-decoration-line")));
         }
 
     }
 
     //проверяем что цена жирная
     public boolean priceStrong(WebElement element) {
-        String priceStrong = element.getAttribute("tagName");
-        String strong = "STRONG";
-        return (strong.equals(priceStrong));
+        return ("STRONG".equals(element.getAttribute("tagName")));
     }
 
     //проверяем что цена красная
