@@ -26,9 +26,8 @@ public class ProductPageTest {
         int r = color.getColor().getRed();
         int b = color.getColor().getBlue();
         int g = color.getColor().getGreen();
-        if (r == g && r == b)
-            return true;
-        else return false;
+        return (r == g && r == b);
+
     }
 
     //проверяем что цена зачеркнута
@@ -51,9 +50,7 @@ public class ProductPageTest {
         Color color = Color.fromString(String.valueOf(element.getCssValue("color")));
         int b = color.getColor().getBlue();
         int g = color.getColor().getGreen();
-        if (g == 0 && b == 0)
-            return true;
-        else return false;
+        return  (g == 0 && b == 0);
     }
 
     //проверяем что акционная цена крупнее обычной
@@ -127,13 +124,14 @@ public class ProductPageTest {
         Assert.assertEquals("Обычная цена на главной странице и карточке товара отличается", valueRegularPriceMain, valueRegularPriceCard);
 
         //проверки на карточке товара
+        //проверяем что обычная цена зачеркнута
         assertTrue("Обычная цена на карточке товара не зачеркнута", priceCross(regularPriceCard));
         //проверяем что цвет обычной цены серый
         assertTrue("Обычная цена на карточке товара не серая", priceGray(regularPriceCard));
         //проверяем что акционная цена жирная
         assertTrue("Акционная цена на карточке товара не жирная", priceStrong(promoPriceCard));
         //проверяем что акционная цена красная
-        assertTrue("Акционная цена не красная", priceRed(promoPriceCard));
+        assertTrue("Акционная цена на карточке не красная", priceRed(promoPriceCard));
         //проверяем что акционная цена крупнее чем обычная
         assertTrue("Размер акционной цены меньше обычной цены", promoPriceBig(promoPriceCard, regularPriceCard));
 
