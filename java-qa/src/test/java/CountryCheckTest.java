@@ -24,7 +24,6 @@ public class CountryCheckTest {
         driver.findElement(By.name("login")).click();
     }
 
-
     @Test
     public void countryCheck() {
         //создаем список из ссылок которые содержат названия стран
@@ -60,12 +59,10 @@ public class CountryCheckTest {
             countZone.add(Integer.valueOf(i.getText()));
         }
         //сравниваем количество зон с 0
-        for (int i : countZone) {
-            if (i > 0) {
-                //получаем индекс элемета
-                int k = countZone.indexOf(i);
+        for (int i =0; i < countZone.size(); i++) {
+            if (countZone.get(i) > 0) {
                 //находим на странице страну по названию и кликаем на неее
-                driver.findElement(By.linkText(nameCountry.get(k))).click();
+                driver.findElement(By.linkText(nameCountry.get(i))).click();
                 //создаем список с зонами
                 List<WebElement> zone = driver.findElements(By.cssSelector("#table-zones td:nth-child(3) input[name*=zones]"));
                 //создаем два списка, в одном из которых произведем сортировку по алфавиту
@@ -84,8 +81,6 @@ public class CountryCheckTest {
                 driver.findElement(By.cssSelector("li#app-.selected")).click();
             }
         }
-
-
     }
 
     @Test
@@ -118,9 +113,7 @@ public class CountryCheckTest {
             assertEquals(zoneNameSort, zoneName);
             //возвращаемся в меню гео зоны
             driver.findElement(By.cssSelector("li#app-.selected")).click();
-
         }
-
     }
 
     @After
@@ -128,5 +121,4 @@ public class CountryCheckTest {
         driver.quit();
         driver = null;
     }
-
 }

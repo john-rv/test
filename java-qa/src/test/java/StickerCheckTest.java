@@ -17,7 +17,6 @@ public class StickerCheckTest {
     @Before
     public void start() {
         driver = new ChromeDriver();
-
     }
 
 
@@ -27,12 +26,11 @@ public class StickerCheckTest {
         //создаем список из изображений товара
         List<WebElement> list = driver.findElements(By.cssSelector("li.product"));
         //перебираем каждый товар в цикле
-        for (int i = 0; i < list.size(); i++) {
+        for (WebElement i: list) {
             //создаем список из стикеров на изображении товара
-            List<WebElement> sticker = list.get(i).findElements(By.cssSelector("div.sticker"));
+            List<WebElement> sticker = i.findElements(By.cssSelector("div.sticker"));
             //сравниваем список стикеров с 1
             assertEquals(1, sticker.size());
-
         }
     }
 

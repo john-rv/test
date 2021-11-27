@@ -12,7 +12,6 @@ public class LoginAdminTest {
     @Before
     public void start(){
         driver = new ChromeDriver();
-
     }
 
     @Test

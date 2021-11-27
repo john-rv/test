@@ -27,7 +27,6 @@ public class ProductPageTest {
         int b = color.getColor().getBlue();
         int g = color.getColor().getGreen();
         return (r == g && r == b);
-
     }
 
     //проверяем что цена зачеркнута
@@ -37,7 +36,6 @@ public class ProductPageTest {
         } else {
             return ("line-through".equals(element.getCssValue("text-decoration-line")));
         }
-
     }
 
     //проверяем что цена жирная
@@ -50,7 +48,7 @@ public class ProductPageTest {
         Color color = Color.fromString(String.valueOf(element.getCssValue("color")));
         int b = color.getColor().getBlue();
         int g = color.getColor().getGreen();
-        return  (g == 0 && b == 0);
+        return (g == 0 && b == 0);
     }
 
     //проверяем что акционная цена крупнее обычной
@@ -63,7 +61,7 @@ public class ProductPageTest {
     }
 
     @Before
-    public void init()  throws IOException {
+    public void init() throws IOException {
         props = new Properties();
         props.load(ProductPageTest.class.getResourceAsStream("test.properties"));
 
@@ -76,17 +74,16 @@ public class ProductPageTest {
             driver = new InternetExplorerDriver();
         }
         driver.get("http://localhost/litecart/en/");
-
     }
 
     @Test
     public void productPage() {
         //получаем название товара на главной странице
-        String nameProductMain = driver.findElement(By.cssSelector("#box-campaigns .name")).getText();
+        String nameProductMain = driver.findElement(By.cssSelector("#box-campaigns li:first-child .name")).getText();
 
         //получаем локаторы обычной и акционной цены на главной странице
-        WebElement promoPriceMain = driver.findElement(By.cssSelector("#box-campaigns .campaign-price"));
-        WebElement regularPrice = driver.findElement(By.cssSelector("#box-campaigns .regular-price"));
+        WebElement promoPriceMain = driver.findElement(By.cssSelector("#box-campaigns li:first-child .campaign-price"));
+        WebElement regularPrice = driver.findElement(By.cssSelector("#box-campaigns li:first-child .regular-price"));
 
         //получаем значение акционной и обычной цены на главной странице
         String valuePromoPriceMain = promoPriceMain.getText();
@@ -105,7 +102,7 @@ public class ProductPageTest {
         assertTrue("Размер акционной цены на главной странице меньше обычной цены", promoPriceBig(promoPriceMain, regularPrice));
 
         //переходим на карточку товара
-        driver.findElement(By.cssSelector("#box-campaigns .name")).click();
+        promoPriceMain.click();
         //получаем название товара на карточке товара
         String nameProductCard = driver.findElement(By.cssSelector("#box-product h1[itemprop = name]")).getText();
         //сравниваем название товара на главной странице и в карточке товара
@@ -131,10 +128,9 @@ public class ProductPageTest {
         //проверяем что акционная цена жирная
         assertTrue("Акционная цена на карточке товара не жирная", priceStrong(promoPriceCard));
         //проверяем что акционная цена красная
-        assertTrue("Акционная цена на карточке не красная", priceRed(promoPriceCard));
+        assertTrue("Акционная цена на карточке товара не красная", priceRed(promoPriceCard));
         //проверяем что акционная цена крупнее чем обычная
         assertTrue("Размер акционной цены меньше обычной цены", promoPriceBig(promoPriceCard, regularPriceCard));
-
     }
 
     @After
