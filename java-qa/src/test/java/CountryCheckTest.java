@@ -1,16 +1,14 @@
+import com.google.common.collect.Ordering;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
+import java.util.*;
+import static org.junit.Assert.assertTrue;
 
 public class CountryCheckTest {
     private WebDriver driver;
@@ -26,30 +24,27 @@ public class CountryCheckTest {
 
     @Test
     public void countryCheck() {
-        //создаем список из ссылок которые содержат названия стран
+        //создаем список с элементами стран
         List<WebElement> country = driver.findElements(By.cssSelector(".dataTable td:nth-child(5)"));
-        //создаем два списка, в одном из которых произведем сортировку по алфавиту
+        //создаем список, который будет содержать названия стран
         List<String> nameCountry = new ArrayList<>();
-        List<String> nameCountrySort = new ArrayList<>();
-        //через цикл заполняем списки названиями стран
+        //через цикл заполняем список названиями стран
         for (WebElement i : country) {
             nameCountry.add(i.getText());
-            nameCountrySort.add(i.getText());
-        }
-        //сортируем список по алфавиту
-        Collections.sort(nameCountrySort);
-        //сравниваем отсортированный список со списком который был получен со страницы
-        assertEquals(nameCountrySort, nameCountry);
+         }
+        //проверяем отсортирован ли список по алфавиту
+        Assert.assertTrue("Список стран не отосортирован по алфавиту", Ordering.natural().isOrdered(nameCountry));
     }
 
     @Test
     public void zoneCountry() {
-        //создаем список из ссылок которые содержат названия стран
+        //создаем список с элементами стран
         List<WebElement> country = driver.findElements(By.cssSelector(".dataTable td:nth-child(5)"));
-        //создаем список с зонами
+        //создаем список с элементами зон
         List<WebElement> zoneCountry = driver.findElements(By.cssSelector(".dataTable td:nth-child(6)"));
-        //создаем список с названиями стран
+        //создаем список, который будет содержать названия стран
         List<String> nameCountry = new ArrayList<>();
+        //через цикл заполняем список названиями стран
         for (WebElement i : country) {
             nameCountry.add(i.getText());
         }
@@ -59,24 +54,20 @@ public class CountryCheckTest {
             countZone.add(Integer.valueOf(i.getText()));
         }
         //сравниваем количество зон с 0
-        for (int i =0; i < countZone.size(); i++) {
+        for (int i = 0; i < countZone.size(); i++) {
             if (countZone.get(i) > 0) {
                 //находим на странице страну по названию и кликаем на неее
                 driver.findElement(By.linkText(nameCountry.get(i))).click();
-                //создаем список с зонами
-                List<WebElement> zone = driver.findElements(By.cssSelector("#table-zones td:nth-child(3) input[name*=zones]"));
-                //создаем два списка, в одном из которых произведем сортировку по алфавиту
+                //создаем список с элементами зон
+                List<WebElement> zone = driver.findElements(By.xpath("//*[@id=\"table-zones\"]//td[3]/text()/.."));
+                //создаем список, который будет содержать названия зон
                 List<String> zoneName = new ArrayList<>();
-                List<String> zoneNameSort = new ArrayList<>();
-                //через цикл заполняем списки названиями зон
+                //через цикл заполняем список названиями зон
                 for (WebElement n : zone) {
                     zoneName.add(n.getText());
-                    zoneNameSort.add(n.getText());
                 }
-                //сортируем список по алфавиту
-                Collections.sort(zoneNameSort);
-                //сравниваем отсортированный список со списком который был получен со страницы
-                assertEquals(zoneNameSort, zoneName);
+                //проверяем отсортирован ли список зон по алфавиту
+                 assertTrue("Список зон не отсортирован по алфавиту", Ordering.natural().isOrdered(zoneName));
                 //возвращаемся в меню стран
                 driver.findElement(By.cssSelector("li#app-.selected")).click();
             }
@@ -97,20 +88,16 @@ public class CountryCheckTest {
         //через цикл заходим в каждую страну
         for (String s : nameCountry) {
             driver.findElement(By.linkText(s)).click();
-            //создаем список из элементов с названиями зон
+            //создаем список из элементов с зонами
             List<WebElement> zone = driver.findElements(By.cssSelector("#table-zones td:nth-child(3) option[selected]"));
-            //создаем два списка, в одном из которых произведем сортировку по алфавиту
+            //создаем список, который будет содержать названия зон
             List<String> zoneName = new ArrayList<>();
-            List<String> zoneNameSort = new ArrayList<>();
-            //через цикл заполняем списки названиями зон
+            //через цикл заполняем список названиями зон
             for (WebElement n : zone) {
                 zoneName.add(n.getText());
-                zoneNameSort.add(n.getText());
             }
-            //сортируем список по алфавиту
-            Collections.sort(zoneNameSort);
-            //сравниваем отсортированный список со списком который был получен со страницы
-            assertEquals(zoneNameSort, zoneName);
+            //проверяем отсортирован ли список по алфавиту
+            assertTrue("Список зон не отсортирован по алфавиту", Ordering.natural().isOrdered(zoneName));
             //возвращаемся в меню гео зоны
             driver.findElement(By.cssSelector("li#app-.selected")).click();
         }
