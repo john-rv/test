@@ -2,10 +2,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -55,8 +58,8 @@ public class RegistrationTest {
         //City
         form.findElement(By.cssSelector("[name = city]")).sendKeys("Moscow");
         //Country
-        Select country = new Select(driver.findElement(By.cssSelector("select[name = country_code]")));
-        country.selectByVisibleText("United States");
+        driver.findElement(By.cssSelector(".select2-selection__arrow b")).click();
+        driver.findElement(By.className("select2-search__field")).sendKeys("United States", Keys.ENTER);
         //Zone/State/Province
         Select state = new Select(driver.findElement(By.cssSelector("select[name = zone_code]")));
         state.selectByIndex(code(1,state.getOptions().size()));
