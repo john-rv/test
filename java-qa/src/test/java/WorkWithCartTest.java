@@ -12,13 +12,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+
 public class WorkWithCartTest {
     public WebDriver driver;
     public WebDriverWait wait;
 
     @Before
-    public void start(){
-        driver = new ChromeDriver();
+    public void start() {
+        driver = new FirefoxDriver();
         wait = new WebDriverWait(driver, 5);
         driver.get("http://localhost/litecart/en/");
     }
@@ -28,23 +30,23 @@ public class WorkWithCartTest {
         //проверяем количество в корзине
         int count = Integer.parseInt(driver.findElement(By.cssSelector("#cart span.quantity")).getText());
         //пока количество меньше 3 добавлем товар
-           while (count < 3){
-               //находим 1 товар из списка кликаем на него
-               driver.findElement(By.cssSelector("#box-most-popular li:nth-child(1)")).click();
-               //если на странице есть селект Size выбираем значение
-               if (driver.findElements(By.className("options")).size() > 0){
-                   Select select = new Select(driver.findElement(By.name("options[Size]")));
-                   select.selectByIndex(1);
-               }
-               //нажимаем добавить
-               driver.findElement(By.name("add_cart_product")).click();
-               //увеличиваем счетчик на 1
-               count++;
-               //ждем пока счетчик корзины обновится, сравниваем значение со значением счетчика
-               wait.until(ExpectedConditions.textToBe(By.cssSelector("#cart span.quantity"),String.valueOf(count)));
-              //возвращаемся на главную
-               driver.findElement(By.className("general-0")).click();
-           }
+        while (count < 3) {
+            //находим 1 товар из списка кликаем на него
+            driver.findElement(By.cssSelector("#box-most-popular li:nth-child(1)")).click();
+            //если на странице есть селект Size выбираем значение
+            if (driver.findElements(By.className("options")).size() > 0) {
+                Select select = new Select(driver.findElement(By.name("options[Size]")));
+                select.selectByIndex(1);
+            }
+            //нажимаем добавить
+            driver.findElement(By.name("add_cart_product")).click();
+            //увеличиваем счетчик на 1
+            count++;
+            //ждем пока счетчик корзины обновится, сравниваем значение со значением счетчика
+            wait.until(ExpectedConditions.textToBe(By.cssSelector("#cart span.quantity"), String.valueOf(count)));
+            //возвращаемся на главную
+            driver.findElement(By.className("general-0")).click();
+        }
 
         //переходим в корзину
         driver.findElement(By.linkText("Checkout »")).click();
@@ -52,19 +54,22 @@ public class WorkWithCartTest {
         List<WebElement> order = driver.findElements(By.cssSelector("td:nth-child(2).item"));
         //получаем размер списка
         int size = order.size();
-            //пока количество в списке > 0
-            while (size > 0){
+        //пока количество в списке > 0
+        while (size > 0) {
             //нажимаем удалить
+            if (size != 1) {
+                driver.findElement(By.cssSelector("li:nth-child(1).shortcut")).click();
+            }
             driver.findElement(By.name("remove_cart_item")).click();
-            //ждем когда исчезнет запись в списке
-            wait.until(ExpectedConditions.stalenessOf(order.get(0)));
+            //ждем когда количество записей будет меньше предыдущего размера списка
+            wait.until(numberOfElementsToBeLessThan(By.cssSelector("td:nth-child(2).item"), size));
             //уменьшаем количество на 1
             size--;
         }
     }
 
-        @After
-    public void stop(){
+    @After
+    public void stop() {
         driver.quit();
         driver = null;
     }
