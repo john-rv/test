@@ -13,9 +13,9 @@ public class TestBase {
     public WebDriver driver;
     public WebDriverWait wait;
 
-    MainPage mainPage;
-    ProductPage productPage;
-    CartPage cartPage;
+    public MainPage mainPage;
+    public ProductPage productPage;
+    public CartPage cartPage;
 
     @Before
     public void start() {
